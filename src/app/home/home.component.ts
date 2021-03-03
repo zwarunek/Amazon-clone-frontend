@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home',
@@ -8,12 +10,21 @@ import {BehaviorSubject} from "rxjs";
 })
 export class HomeComponent implements OnInit {
   currentUserSubject: BehaviorSubject<any>;
+  test: any;
 
-  constructor() {
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
+
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
   }
 
   ngOnInit(): void {
+    let params = new HttpParams().set("productId",'2');
+    this.http.get<any>("http://localhost:4200/api/getProductImages", {params: params}).subscribe(response => {
+      let objectURL = 'data:image/jpeg;base64,' + response.data[0];
+
+      this.test = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+
+    });
   }
 
 }

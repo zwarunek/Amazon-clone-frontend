@@ -27,6 +27,14 @@ export class AuthenticationService {
       }));
   }
 
+  checkEmail(email){
+
+    return this.http.get<any>(`http://localhost:8080/checkAccountExists`, {params: {email: email} })
+      .pipe(map(response => {
+        return response;
+      }));
+  }
+
   logout() {
     // remove user from local storage and set current user to null
     localStorage.removeItem('currentUser');

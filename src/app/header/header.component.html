@@ -1,0 +1,29 @@
+    <div class="p-d-flex" style="height: 60px">
+      <div class="nav-left p-d-flex p-mr-2">
+        <div id="nav-logo" class="p-mr-2">
+          <a href="/" class="nav-logo-link">
+            <span class="main_logo"></span>
+            <span *ngIf="primeMember == true" class="prime_logo"></span>
+          </a>
+        </div>
+        <div id="nav-location-slot" class="p-mr-2">
+          <a href="/" class="nav-location"></a>
+        </div>
+      </div>
+      <div *ngIf="currentUser != null" class="nav-fill">
+        <div class="search-bar">
+          <p-dropdown class="cat" [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name" placeholder="All" ></p-dropdown>
+          <input pInputText type="text" style="border-radius: 0 0 0 0; flex: 1 1 auto;">
+          <button pButton pRipple icon="pi pi-search" style="border-radius: 0 5px 5px 0;color: #131921; background: #febd69; border-color: #febd69"></button>
+        </div>
+      </div>
+      <div *ngIf="currentUser != null" class="nav-right p-d-flex p-mr-2">
+        <div class="right-of-search p-py-1">
+          <button type="button" #menuShower pButton icon="pi pi-list" label="Show" style="background: #131921; border-color: #131921; color: white" (mouseover)="menu.show($event);" (mouseleave) ="menu.hide();" routerLink="/account"></button>
+        </div>
+        <div class="right-of-search">
+
+        </div>
+        <p-menu #menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [popup]="true" [model]="accountInfoItems" (mouseleave) ="menu.hide();" (mouseenter)="show(menuShower)"></p-menu>
+      </div>
+    </div>

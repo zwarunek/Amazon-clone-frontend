@@ -5,17 +5,30 @@ import {HomeComponent} from "./home/home.component";
 import {AuthGuard} from "./_helpers";
 import {RegisterComponent} from "./register/register.component";
 import {CartComponent} from "./cart/cart.component";
+import {ProductComponent} from "./product/product.component";
+import {AccountComponent} from "./account/account.component";
+import {OrderHistoryComponent} from "./order-history/order-history.component";
+import {OrderComponent} from "./order/order.component";
+import {BrowsingHistoryComponent} from "./browsing-history/browsing-history.component";
+import {LoginSecurityComponent} from "./account/login-security/login-security.component";
+import {PaymentMethodsComponent} from "./account/payment-methods/payment-methods.component";
+import {AddressesComponent} from "./account/addresses/addresses.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: '**', redirectTo: ''},
-  {path: 'account', component: RegisterComponent},
-  {path: 'order-history', component: RegisterComponent},
-  {path: 'order/:id', component: RegisterComponent},
-  {path: 'prime-membership', component: RegisterComponent},
-  {path: 'cart', component: CartComponent}
+  {path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
+  {path: 'order-history', component: OrderHistoryComponent, canActivate: [AuthGuard]},
+  {path: 'order/:id', component: OrderComponent, canActivate: [AuthGuard]},
+  {path: 'product/:id', component: ProductComponent, canActivate: [AuthGuard]},
+  {path: 'browsing-history', component: BrowsingHistoryComponent, canActivate: [AuthGuard]},
+  {path: 'cart', component: CartComponent, canActivate: [AuthGuard]},
+  {path: 'account/login-security', component: LoginSecurityComponent, canActivate: [AuthGuard]},
+  {path: 'account/payment-methods', component: PaymentMethodsComponent, canActivate: [AuthGuard]},
+  {path: 'account/addresses', component: AddressesComponent, canActivate: [AuthGuard]},
+
+  {path: '**', redirectTo: ''}
 
 ];
 

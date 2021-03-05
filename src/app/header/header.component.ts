@@ -29,8 +29,8 @@ export class HeaderComponent implements OnInit {
     this.primeMember = this.currentUserSubject.value != null && this.currentUserSubject.value.primeMember == true;
     if(this.currentUserSubject.value != null) {
       this.http.get<any>("http://localhost:4200/api/getAllCategories").subscribe(response => {
-        this.categories = response.data;
-        this.categories.push({categoryId: 0, name: "All Departments"});
+        this.categories = [{categoryId: 0, name: "All Departments"}].concat(response.data)
+        // this.categories.push(response.data);
         this.selectedCategory = "All";
 
       });

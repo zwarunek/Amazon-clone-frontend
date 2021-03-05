@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../_services";
 import {first} from "rxjs/operators";
@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/)]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+    this.loginForm = new FormGroup({
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required)
     });
 
     // get return url from route parameters or default to '/'
@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+    this.loginForm.value.email = this.normalizeInput(this.loginForm.value.email);
 
     this.loading = true;
     this.authService.login(this.f.email.value, this.f.password.value)
@@ -70,5 +71,8 @@ export class LoginComponent implements OnInit {
           this.error = error;
           this.loading = false;
       });
+  }
+  normalizeInput(input: string): string{
+    return input[0].toUpperCase() + input.substr(1).toLowerCase();
   }
 }

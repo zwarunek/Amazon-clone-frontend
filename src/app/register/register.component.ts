@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { UserService, AuthenticationService } from '../_services';
@@ -26,10 +26,10 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/)]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.pattern(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)])
     });
   }
 
@@ -43,6 +43,9 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+    this.registerForm.value.firstName = this.normalizeInput(this.registerForm.value.firstName);
+    this.registerForm.value.lastName = this.normalizeInput(this.registerForm.value.lastName);
+    this.registerForm.value.email = this.normalizeInput(this.registerForm.value.email);
 
     this.loading = true;
     this.userService.register(this.registerForm.value)
@@ -62,5 +65,8 @@ export class RegisterComponent implements OnInit {
           this.error = error;
           this.loading = false;
         });
+  }
+  normalizeInput(input: string): string{
+    return input[0].toUpperCase() + input.substr(1).toLowerCase();
   }
 }

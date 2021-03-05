@@ -23,11 +23,16 @@ import {MenuModule} from 'primeng/menu';
 import { AccountComponent } from './account/account.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OrderComponent } from './order/order.component';
-import { PrimeMembershipComponent } from './prime-membership/prime-membership.component';
 import { BrowsingHistoryComponent } from './browsing-history/browsing-history.component';
 import { CartComponent } from './cart/cart.component';
 import {CardModule} from 'primeng/card';
 import {PasswordModule} from 'primeng/password';
+import { ProductComponent } from './product/product.component';
+import { LoginSecurityComponent } from './account/login-security/login-security.component';
+import { AddressesComponent } from './account/addresses/addresses.component';
+import { PaymentMethodsComponent } from './account/payment-methods/payment-methods.component';
+import {DialogModule} from 'primeng/dialog';
+
 
 
 @NgModule({
@@ -41,9 +46,12 @@ import {PasswordModule} from 'primeng/password';
     AccountComponent,
     OrderHistoryComponent,
     OrderComponent,
-    PrimeMembershipComponent,
     BrowsingHistoryComponent,
-    CartComponent
+    CartComponent,
+    ProductComponent,
+    LoginSecurityComponent,
+    AddressesComponent,
+    PaymentMethodsComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,7 +69,8 @@ import {PasswordModule} from 'primeng/password';
     SlideMenuModule,
     MenuModule,
     CardModule,
-    PasswordModule
+    PasswordModule,
+    DialogModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

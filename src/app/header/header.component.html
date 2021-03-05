@@ -14,16 +14,28 @@
         <div class="search-bar">
           <p-dropdown class="cat" [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name" placeholder="All" ></p-dropdown>
           <input pInputText type="text" style="border-radius: 0 0 0 0; flex: 1 1 auto;">
-          <button pButton pRipple icon="pi pi-search" style="border-radius: 0 5px 5px 0;color: #131921; background: #febd69; border-color: #febd69"></button>
+          <button pButton pRipple label=" " style="border-radius: 0 5px 5px 0;color: #131921; background: #febd69; border-color: #febd69">
+            <i class="pi pi-search" style="font-size: 1.5rem"></i>
+          </button>
         </div>
       </div>
       <div *ngIf="currentUser != null" class="nav-right p-d-flex p-mr-2">
-        <div class="right-of-search p-py-1">
-          <button type="button" #menuShower pButton icon="pi pi-list" label="Show" style="background: #131921; border-color: #131921; color: white" (mouseover)="menu.show($event);" (mouseleave) ="menu.hide();" routerLink="/account"></button>
+        <div class="right-of-search p-py-2">
+          <a  #menuShower  style=" background: #131921; border-color: #131921; color: white" (mouseover)="menu.show($event);" (mouseleave) ="menu.hide();" href="/account">
+            <div class="p-d-flex p-flex-column">
+              <span style="font-size: 12px">Hello, {{currentUser.firstName}}</span>
+              <span style="font-size: 14px">Your Account</span>
+            </div>
+          </a>
         </div>
-        <div class="right-of-search">
-
+        <div class="right-of-search p-d-flex p-py-2">
+          <a routerLink="/cart" style=" background: #131921; border-color: #131921; color: white; height: 100%; width: 100%" >
+            <div class="p-d-flex p-jc-center p-mt-1" style="width: auto;">
+              <i class="pi pi-shopping-cart" style="font-size: 2.6rem"></i>
+              <span >Cart</span>
+            </div>
+          </a>
         </div>
-        <p-menu #menu [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [popup]="true" [model]="accountInfoItems" (mouseleave) ="menu.hide();" (mouseenter)="show(menuShower)"></p-menu>
+        <p-menu #menu  [showTransitionOptions]="'0ms'" [hideTransitionOptions]="'0ms'" [popup]="true" [model]="accountInfoItems" (mouseleave) ="menu.hide();" (mouseenter)="show(menuShower)"></p-menu>
       </div>
     </div>

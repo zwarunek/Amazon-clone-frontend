@@ -1,24 +1,23 @@
-<div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<div *ngIf="success" class="alert alert-success">{{success}}</div>
-
 <div class="main-content p-mx-auto p-grid p-jc-center">
   <div style="width: 350px">
-    <div class="login-card p-mx-auto" style="border-radius: 4px; border: 1px #ddd solid; height: 280px; width: 350px; padding: 20px 26px">
+    <div class="login-card p-mx-auto" style="border-radius: 4px; border: 1px #ddd solid; height: auto; width: 350px; padding: 20px 26px">
       <h1 class="a-spacing-small">Sign-in</h1>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmitPassword()">
+      <form [formGroup]="loginForm" #form="ngForm" (keydown.enter)="onSubmitPassword()" (ngSubmit)="onSubmitPassword()">
 
         <div class="p-fluid">
           <div class="p-field form-group">
-            <label>Email</label>
-            <input pInputText type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+            <label for="email">Email</label>
+            <input id="email" pInputText type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+            <small *ngIf="form.submitted && f.email.invalid && f.email.errors.required" id="email-notification" class="p-error">Email is required</small>
           </div>
           <div class="p-field form-group">
-            <label>Password</label>
-            <p-password formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"></p-password>
+            <label for="password">Password</label>
+            <p-password id="password" formControlName="password" class="form-control" [feedback]="false" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"></p-password>
+            <small *ngIf="form.submitted && f.password.invalid && f.password.errors.required" id="password-notification" class="p-error">Password is required</small>
           </div>
           <div class="p-field form-group">
             <br>
-            <button pRipple pButton label="Sign-in" style="background: #febd69; border-color: #9f7933; color: #000000; font-family: Ember, sans-serif"></button>
+            <button pRipple pButton label="Sign-in" type="submit" style="background: #febd69; border-color: #9f7933; color: #000000; font-family: Ember, sans-serif"></button>
           </div>
         </div>
       </form>

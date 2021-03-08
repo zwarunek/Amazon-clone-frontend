@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     this.authService.login(this.f.email.value, this.f.password.value)
-      .pipe(first())
       .subscribe(data => {
           if(data.status == 200){
             this.router.navigate([this.returnUrl]);

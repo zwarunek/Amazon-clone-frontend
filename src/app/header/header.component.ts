@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../_services";
@@ -15,26 +15,20 @@ export class HeaderComponent implements OnInit {
   currentUserSubject: BehaviorSubject<any>;
   categories: any[];
   selectedCategory: String;
-  searchText: any;
   accountInfoItems: MenuItem[];
   primeMember: boolean;
   currentUser: any;
 
   constructor(private http: HttpClient,private router: Router, private authService: AuthenticationService) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-    this.authService.currentUser.subscribe(x => this.currentUser = x);
+    this.authService.currentUser.subscribe(x => {
+      this.currentUser = x;
+    });
   }
 
   ngOnInit(): void {
-    this.primeMember = this.currentUserSubject.value != null && this.currentUserSubject.value.primeMember == true;
-    if(this.currentUserSubject.value != null) {
-      this.http.get<any>("http://localhost:4200/api/getAllCategories").subscribe(response => {
-        this.categories = [{categoryId: 0, name: "All Departments"}].concat(response.data)
-        // this.categories.push(response.data);
-        this.selectedCategory = "All";
-
-      });
-    }
+    this.primeMember = this.currentUser != null && this.currentUser.primeMember == true;
+    this.fetchCategories();
     this.accountInfoItems = [
       {label: 'Your Account',
         items: [{
@@ -75,7 +69,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  fetchCategories(){
+    this.http.get<any>("http://localhost:4200/api/getAllCategories").subscribe(response => {
+      this.categories = [{categoryId: 0, name: "All Departments"}].concat(response.data)
+      this.selectedCategory = "All";
 
+    });
+  }
   mouseExit(obj: string) {
     console.log('mouse leave :' + obj);
 

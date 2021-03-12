@@ -4,10 +4,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MenubarModule} from 'primeng/menubar';
-import {MenuItem, SharedModule, ConfirmationService} from 'primeng/api';
+import {SharedModule, TreeNode} from 'primeng/api';
 import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
-
+import {AccordionModule} from 'primeng/accordion';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -35,6 +35,8 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import {TreeModule} from 'primeng/tree';
+
 
 
 @NgModule({
@@ -75,7 +77,10 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
     MessagesModule,
     MessageModule,
     ProgressSpinnerModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    TreeModule,
+    AccordionModule
+
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

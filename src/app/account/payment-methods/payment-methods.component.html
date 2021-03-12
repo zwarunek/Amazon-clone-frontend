@@ -1,1 +1,52 @@
-<p>payment-methods works!</p>
+<div class="p-d-flex p-jc-center">
+  <div class="main-content">
+    <h1 style="border-bottom: #FFA62B solid 1px; margin-bottom: 40px">
+      Your Payments
+    </h1>
+    <div style="padding:0 20px">
+      <div style="width: 100%" class="p-d-flex p-grid">
+        <h4 class="p-col-9">
+          Your Payment Methods
+        </h4>
+        <h4 class="p-col-3">
+          Expires On
+        </h4>
+      </div>
+      <p-accordion *ngFor="let method of paymentMethods" [multiple]="true">
+        <p-accordionTab *ngIf="paymentMethods != null"  >
+          <ng-template pTemplate="header">
+            <div class="p-grid p-d-flex p-my-auto p-ai-center" style="width: 100%; height: 100%">
+              <div class="p-col-9 p-d-flex p-ai-center">
+                <img  src="{{method.image}}" width="34px" height="22px" style="margin-right: 10px">
+                <label style="font-weight: normal; font-size: 14px">{{method.type}} ending in {{method.cardNumber.toString().substring(method.cardNumber.toString().length - 4)}}</label>
+                <i *ngIf="method.favorite == true" class="pi pi-star-o p-ml-3" style="color: #FFA62B"></i>
+              </div>
+              <div class="p-col-3" style="font-weight: normal; font-size: 14px">
+                {{method.exp}}
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="content">
+            <div style="padding: 15px">
+              <div class="p-grid p-d-flex" style="width: 100%" >
+                <div class="p-col-9 p-d-flex p-flex-column">
+                  <label style="font-weight: bolder; font-size: 14px">Name on Card</label>
+                  <label style="font-weight: normal; font-size: 14px">{{method.nameOnCard | titlecase}}</label>
+                </div>
+                <div class="p-col-3">
+
+                </div>
+              </div>
+              <div class="p-d-flex p-jc-end" style="width: 100%">
+                <button class="p-mr-2" pRipple pButton *ngIf="method.favorite != true" (click)="makeFavorite(method.PMID)" style="background: #febd69; border-color: #9f7933; color: #000000"  label="Make Favorite"></button>
+                <button class="p-mr-2" pRipple pButton style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000" label="Delete"></button>
+                <button class="p-mr-2" pRipple pButton style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000" label="Edit"></button>
+              </div>
+            </div>
+          </ng-template>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+
+  </div>
+</div>

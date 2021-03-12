@@ -11,6 +11,8 @@ export class AppComponent {
   title = 'database-project-frontend';
   currentUser: any;
 
+  loading: boolean = false;
+
   constructor(private router: Router, private authService: AuthenticationService) {
     this.authService.currentUser.subscribe(x => this.currentUser = x);
   }
@@ -19,5 +21,7 @@ export class AppComponent {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
-
+  isLoading(is: boolean) {
+    this.loading = is;
+  }
 }

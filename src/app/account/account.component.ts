@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {AuthenticationService} from "../_services";
+import {AuthenticationService, UserService} from "../_services";
 import {BehaviorSubject} from "rxjs";
-import {map} from "rxjs/operators";
-import {Header} from "primeng/api";
-import {HeaderComponent} from "../header/header.component";
+import {first} from "rxjs/operators";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { MustMatch } from '../_helpers';
+import {AppComponent} from "../app.component";
 
 @Component({
   selector: 'app-account',
@@ -15,15 +16,66 @@ import {HeaderComponent} from "../header/header.component";
 export class AccountComponent implements OnInit {
 
   currentUserSubject: BehaviorSubject<any>;
+  nameForm: FormGroup;
+  emailForm: FormGroup;
+  passwordForm: FormGroup;
   currentUser: any;
+  changeDetails: any;
   cards: any[];
   primeVisible: boolean;
-  constructor(private http: HttpClient,private router: Router, private authService: AuthenticationService) {
+  accountDetailVisible: boolean;
+  editNameVisible: any;
+  editEmailVisible: any;
+  editPasswordVisible: any;
+  transitionURL: any;
+  private error: any;
+  constructor(private http: HttpClient, private userService: UserService, public router: Router, private authService: AuthenticationService, private route: ActivatedRoute,private formBuilder: FormBuilder, public app: AppComponent) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-    this.authService.currentUser.subscribe(x => this.currentUser = x);
+    this.authService.currentUser.subscribe(x => {
+      this.currentUser = x;
+      this.changeDetails = x;
+      this.changeDetails.updatePassword = false;
+    });
+    this.route.queryParams.subscribe(params => {
+      switch (params['part']){
+        case 'prime':
+          this.primeVisible = true;
+          break;
+        case 'changeDetails':
+          this.accountDetailVisible = true;
+          break;
+        case 'editName':
+          this.editNameVisible = true;
+          break;
+        case 'editEmail':
+          this.editEmailVisible = true;
+          break;
+        case 'editPassword':
+          this.editPasswordVisible = true;
+          break;
+
+      }
+
+    })
+
   }
 
   ngOnInit(): void {
+    this.nameForm = this.formBuilder.group({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required)
+    });
+    this.emailForm = this.formBuilder.group({
+      email: new FormControl('', [Validators.required, Validators.pattern(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/)])
+    });
+    this.passwordForm = this.formBuilder.group({
+        password: new FormControl('', Validators.required),
+        newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        confirmPassword: new FormControl('', [Validators.required])
+      }, {
+      validator: MustMatch('newPassword', 'confirmPassword')
+    });
+
     this.cards = [{
       Name: 'Your Orders',
       Desc: 'View the orders you have made',
@@ -33,12 +85,13 @@ export class AccountComponent implements OnInit {
       {
         Name: 'Prime',
         Desc: 'View subscription',
+        routerLink: '/account?part=prime',
         img: 'https://images-na.ssl-images-amazon.com/images/G/01/x-locale/cs/ya/images/Prime_clear-bg._CB423472251_.png'
       },
       {
         Name: 'Login & Security',
         Desc: 'Edit login, and name',
-        routerLink: '/account/login-security',
+        routerLink: '/account?part=changeDetails',
         img: 'https://images-na.ssl-images-amazon.com/images/G/01/x-locale/cs/help/images/gateway/self-service/security._CB659600413_.png'
       },
       {
@@ -58,26 +111,115 @@ export class AccountComponent implements OnInit {
       }];
   }
 
-  handleClick(card: any) {
-    if(card.routerLink != null){
-      this.router.navigateByUrl(card.routerLink);
-    }
-    else{
-      switch (card.Name){
-        case 'Prime':
-          this.primeVisible = true;
-          break;
-      }
-    }
-  }
+  get name() { return this.nameForm.controls; }
+  get email() { return this.emailForm.controls; }
+  get password() { return this.passwordForm.controls; }
 
   changeMembership() {
+    this.app.isLoading(true);
     this.http.post<any>("http://localhost:4200/api/changePrimeMembership", { member: this.currentUser.primeMember, accountId: this.currentUser.accountId }).subscribe(response =>{
       response.data.token = this.currentUserSubject.value.token;
-      localStorage.setItem('currentUser', JSON.stringify(response.data));
-      this.currentUserSubject.next(response.data);
-      this.currentUser = this.currentUserSubject.value;
-      location.reload();
+      this.authService.updateUser(response.data)
+      this.app.isLoading(false);
     });
+  }
+
+  showEdit(url: string) {
+    this.transitionURL = '/account?part=' + url;
+    this.accountDetailVisible = false;
+  }
+
+  logger (string: any){
+    console.log(string)
+  }
+
+  submitName(form: any) {
+
+    if (this.nameForm.invalid) {
+      return;
+    }
+    this.app.isLoading(true);
+    let tempAccount = this.currentUser;
+    tempAccount.firstName = this.nameForm.value.firstName.toLowerCase();
+    tempAccount.lastName = this.nameForm.value.lastName.toLowerCase();
+    tempAccount.updatePassword = false;
+    this.callEditAccount(tempAccount);
+    this.editNameVisible = false;
+    form.reset();
+    form.resetForm()
+    this.nameForm.reset();
+    this.editNameVisible = false;
+  }
+  submitEmail(form: any) {
+
+    if (this.emailForm.invalid) {
+      return;
+    }
+    this.app.isLoading(true);
+    let tempAccount = this.currentUser;
+    tempAccount.email = this.emailForm.value.email.toLowerCase();
+    tempAccount.updatePassword = false;
+    this.callEditAccount(tempAccount);
+    this.editEmailVisible = false;
+    form.reset();
+    form.resetForm()
+    this.emailForm.reset();
+    this.editEmailVisible = false;
+  }
+  submitPassword(form: any) {
+
+
+    if (this.passwordForm.invalid) {
+      return;
+    }
+    this.app.isLoading(true);
+    this.authService.checkPassword(this.currentUser.email, this.passwordForm.value.password)
+      .pipe(first())
+      .subscribe(
+        response => {
+          if(response.status == 200){
+            let tempAccount = this.currentUser;
+            tempAccount.password = this.passwordForm.value.newPassword;
+            tempAccount.updatePassword = true;
+            this.callEditAccount(tempAccount);
+            this.editPasswordVisible = false;
+          }
+          else{
+
+            this.app.isLoading(false);
+          }
+
+        },
+        error => {
+          this.error = error;
+          this.app.isLoading(false);
+        }
+      );
+    form.reset();
+    form.resetForm()
+    this.passwordForm.reset();
+    this.editPasswordVisible = false;
+
+  }
+
+  callEditAccount(tempAccount: any){
+    this.userService.changeAccountDetails(tempAccount)
+      .pipe(first())
+      .subscribe(
+        response => {
+          if(response.status == 200){
+            this.authService.updateUser(response.data)
+          }
+          else{
+            this.error = response.message;
+          }
+          this.app.isLoading(false);
+
+        },
+        error => {
+          this.error = error;
+          this.app.isLoading(false);
+        }
+      );
   }
 }

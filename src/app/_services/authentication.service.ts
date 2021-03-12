@@ -40,4 +40,14 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
+  updateUser(details: any) {
+    localStorage.setItem('currentUser', JSON.stringify(details));
+    this.currentUserSubject.next(details);
+  }
+  checkPassword(email: string, password: string) {
+    return this.http.post<any>(`http://localhost:8080/checkPassword`, { email: email, password: password})
+      .pipe(map(response => {
+        return response;
+      }));
+  }
 }

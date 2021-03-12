@@ -67,6 +67,6 @@ export class RegisterComponent implements OnInit {
         });
   }
   normalizeInput(input: string): string{
-    return input[0].toUpperCase() + input.substr(1).toLowerCase();
+    return input.toLowerCase();
   }
 }

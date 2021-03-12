@@ -23,7 +23,7 @@
         <div class="right-of-search p-py-2">
           <a  #menuShower  style=" background: #131921; border-color: #131921; color: white" (mouseover)="menu.show($event);" (mouseleave) ="menu.hide();" href="/account">
             <div class="p-d-flex p-flex-column">
-              <span style="font-size: 12px">Hello, {{currentUser.firstName}}</span>
+              <span style="font-size: 12px">Hello, {{currentUser.firstName | titlecase}}</span>
               <span style="font-size: 14px">Your Account</span>
             </div>
           </a>

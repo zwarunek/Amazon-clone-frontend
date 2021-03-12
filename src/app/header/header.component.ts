@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     this.authService.currentUser.subscribe(x => {
       this.currentUser = x;
+      this.primeMember = this.currentUser != null && this.currentUser.primeMember == true;
     });
   }
 
@@ -49,7 +50,10 @@ export class HeaderComponent implements OnInit {
           {
             label: 'Prime Membership',
             icon: 'pi pi-amazon',
-            routerLink: '/prime-membership'
+            routerLink: '/account',
+            queryParams: {
+              part: 'prime'
+            }
 
           },
           {

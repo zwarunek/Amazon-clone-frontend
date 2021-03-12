@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../_services";
-import {first} from "rxjs/operators";
+import {Message,MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [MessageService]
 })
 
 export class LoginComponent implements OnInit {
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   error: string;
   success: string;
 
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authService: AuthenticationService) {
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private authService: AuthenticationService,private messageService: MessageService) {
     if(this.authService.currentUserValue){
       this.router.navigate(['/'])
     }
@@ -62,6 +63,7 @@ export class LoginComponent implements OnInit {
           else
           {
             this.error = data.message;
+            this.show()
             this.loading = false;
           }
 
@@ -73,5 +75,8 @@ export class LoginComponent implements OnInit {
   }
   normalizeInput(input: string): string{
     return input[0].toUpperCase() + input.substr(1).toLowerCase();
+  }
+  show(){
+    this.messageService.add({severity:'error', detail:this.error});
   }
 }

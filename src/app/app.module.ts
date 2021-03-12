@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MenubarModule} from 'primeng/menubar';
-import {MenuItem, SharedModule} from 'primeng/api';
+import {MenuItem, SharedModule, ConfirmationService} from 'primeng/api';
 import {InputTextModule} from 'primeng/inputtext';
 import {DropdownModule} from 'primeng/dropdown';
 
@@ -28,11 +28,13 @@ import { CartComponent } from './cart/cart.component';
 import {CardModule} from 'primeng/card';
 import {PasswordModule} from 'primeng/password';
 import { ProductComponent } from './product/product.component';
-import { LoginSecurityComponent } from './account/login-security/login-security.component';
 import { AddressesComponent } from './account/addresses/addresses.component';
 import { PaymentMethodsComponent } from './account/payment-methods/payment-methods.component';
 import {DialogModule} from 'primeng/dialog';
-
+import {MessagesModule} from 'primeng/messages';
+import {MessageModule} from 'primeng/message';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
 
 
 @NgModule({
@@ -49,7 +51,6 @@ import {DialogModule} from 'primeng/dialog';
     BrowsingHistoryComponent,
     CartComponent,
     ProductComponent,
-    LoginSecurityComponent,
     AddressesComponent,
     PaymentMethodsComponent,
   ],
@@ -70,7 +71,11 @@ import {DialogModule} from 'primeng/dialog';
     MenuModule,
     CardModule,
     PasswordModule,
-    DialogModule
+    DialogModule,
+    MessagesModule,
+    MessageModule,
+    ProgressSpinnerModule,
+    ConfirmPopupModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

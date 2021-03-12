@@ -1,5 +1,6 @@
 <div class="main-content p-mx-auto p-grid p-jc-center">
   <div style="width: 350px">
+    <p-messages></p-messages>
     <div class="login-card p-mx-auto" style="border-radius: 4px; border: 1px #ddd solid; height: auto; width: 350px; padding: 20px 26px">
       <h1 class="a-spacing-small">Sign-in</h1>
       <form [formGroup]="loginForm" #form="ngForm" (keydown.enter)="onSubmitPassword()" (ngSubmit)="onSubmitPassword()">

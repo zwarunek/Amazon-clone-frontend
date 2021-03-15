@@ -36,7 +36,7 @@ import {MessageModule} from 'primeng/message';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {TreeModule} from 'primeng/tree';
-
+import {InputMaskModule} from 'primeng/inputmask';
 
 
 @NgModule({
@@ -79,7 +79,8 @@ import {TreeModule} from 'primeng/tree';
     ProgressSpinnerModule,
     ConfirmPopupModule,
     TreeModule,
-    AccordionModule
+    AccordionModule,
+    InputMaskModule
 
   ],
   providers: [

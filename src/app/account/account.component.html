@@ -36,7 +36,7 @@
       {{currentUser.primeMember?'Amazon Prime Member':'Not Subscribed'}}
     </h4>
     <div class="p-d-flex p-jc-center">
-      <button pRipple pButton label="{{currentUser.primeMember?'Cancel Membership':'Become an Amazon Prime Member'}}" type="button" (click)="changeMembership()" style="background: #febd69; border-color: #9f7933; color: #000000; font-family: Ember, sans-serif"></button>
+      <button pRipple pButton class="gray-button" label="{{currentUser.primeMember?'Cancel Membership':'Become an Amazon Prime Member'}}" type="button" (click)="changeMembership()" ></button>
     </div>
   </div>
 </p-dialog>
@@ -56,8 +56,8 @@
         <small *ngIf="formName.submitted && name.lastName.invalid && name.lastName.errors.required" id="lastName-notification" class="p-error">Last Name is required</small>
       </div>
       <div class="p-d-flex p-jc-center" style="margin-top: 20px">
-        <button pButton pRipple label="Cancel" type="reset" (click)="editNameVisible = false" style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000;margin-right: 10px"></button>
-        <button pRipple pButton label="Save" type="submit"  style="background: #febd69; border-color: #9f7933; color: #000000; font-family: Ember, sans-serif"></button>
+        <button pButton pRipple class="yellow-button" label="Cancel" type="reset" (click)="editNameVisible = false" style="margin-right: 10px"></button>
+        <button pRipple pButton class="gray-button" label="Save" type="submit"></button>
       </div>
     </form>
   </div>
@@ -72,8 +72,8 @@
         <small *ngIf="formEmail.submitted && email.email.invalid && name.email.errors.required" id="email-notification" class="p-error">Email is required</small>
       </div>
       <div class="p-d-flex p-jc-center" style="margin-top: 20px">
-        <button pButton pRipple label="Cancel" type="reset" (click)="editEmailVisible = false" style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000;margin-right: 10px"></button>
-        <button pRipple pButton label="Save" type="submit"  style="background: #febd69; border-color: #9f7933; color: #000000; font-family: Ember, sans-serif"></button>
+        <button pButton pRipple class="gray-button"   label="Cancel" type="reset" (click)="editEmailVisible = false" style="margin-right: 10px"></button>
+        <button pRipple pButton class="yellow-button" label="Save" type="submit"></button>
       </div>
     </form>
   </div>
@@ -101,8 +101,8 @@
         <small *ngIf="password.confirmPassword.touched && password.confirmPassword.invalid && password.confirmPassword.errors.mustMatch" class="p-error">Passwords dont match</small>
       </div>
       <div class="p-d-flex p-jc-center" style="margin-top: 20px">
-        <button pButton pRipple  label="Cancel" type="reset" (click)="editPasswordVisible = false" style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000;margin-right: 10px"></button>
-        <button pRipple pButton  label="Save" type="submit" style="background: #febd69; border-color: #9f7933; color: #000000; font-family: Ember, sans-serif"></button>
+        <button pButton pRipple class="gray-button"   label="Cancel" type="reset" (click)="editPasswordVisible = false" style="margin-right: 10px"></button>
+        <button pRipple pButton class="yellow-button" label="Save" type="submit"></button>
       </div>
     </form>
   </div>
@@ -117,7 +117,7 @@
         <h4 style="font-weight: normal">{{currentUser.firstName | titlecase}} {{currentUser.lastName | titlecase}}</h4>
       </div>
       <div class="p-col-3 p-d-flex p-ai-center p-jc-center">
-        <button pButton pRipple label="Edit" (click)="showEdit('editName')" style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000;"></button>
+        <button pButton pRipple class="gray-button" label="Edit" (click)="showEdit('editName')"></button>
       </div>
     </div>
     <div class="p-grid" style="border-bottom: #dbdbdb 1px solid; margin-bottom: 10px">
@@ -126,7 +126,7 @@
         <h4 style="font-weight: normal">{{currentUser.email}}</h4>
       </div>
       <div class="p-col-3 p-d-flex p-ai-center p-jc-center">
-        <button pButton pRipple label="Edit" (click)="showEdit('editEmail')" style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000;"></button>
+        <button pButton pRipple class="gray-button" label="Edit" (click)="showEdit('editEmail')"></button>
       </div>
     </div>
     <div class="p-grid" style="border-bottom: #dbdbdb 1px solid; margin-bottom: 10px">
@@ -134,11 +134,11 @@
         <h4>Password:</h4>
       </div>
       <div class="p-col-5 p-d-flex p-ai-center p-jc-center">
-        <button pButton pRipple label="Change Password" (click)="showEdit('editPassword')" style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000;"></button>
+        <button pButton pRipple class="gray-button" label="Change Password" (click)="showEdit('editPassword')"></button>
       </div>
     </div>
     <div class="p-d-flex p-jc-center">
-      <button pRipple pButton label="Done" type="button" (click)="accountDetailVisible = false" style="background: #febd69; border-color: #9f7933; color: #000000; font-family: Ember, sans-serif"></button>
+      <button pRipple pButton class="yellow-button" label="Done" type="button" (click)="accountDetailVisible = false"></button>
     </div>
   </div>
 </p-dialog>

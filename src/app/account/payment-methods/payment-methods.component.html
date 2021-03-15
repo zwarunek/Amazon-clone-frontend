@@ -38,15 +38,79 @@
                 </div>
               </div>
               <div class="p-d-flex p-jc-end" style="width: 100%">
-                <button class="p-mr-2" pRipple pButton *ngIf="method.favorite != true" (click)="makeFavorite(method.PMID)" style="background: #febd69; border-color: #9f7933; color: #000000"  label="Make Favorite"></button>
-                <button class="p-mr-2" pRipple pButton style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000" label="Delete"></button>
-                <button class="p-mr-2" pRipple pButton style="background: #e7e9ec; border-color: #adb1b8 #a2a6ac #8d9096;color: #000000" label="Edit"></button>
+                <button class="p-mr-2 yellow-button" pRipple pButton *ngIf="method.favorite != true" (click)="makeFavorite(method.PMID)"   label="Make Favorite"></button>
+                <button class="p-mr-2 gray-button" pRipple pButton label="Delete" (click)="deletePaymentMethod(method.PMID)"></button>
+                <button class="p-mr-2 gray-button" pRipple pButton label="Edit" (click)="editPaymentMethod(method)"></button>
               </div>
             </div>
           </ng-template>
         </p-accordionTab>
       </p-accordion>
+      <div class="p-d-flex p-mt-4" style="width: 100%">
+        <button pButton pRipple class="gray-button" type="button" label="Add Payment Method" (click)="addPaymentMethod = true"></button>
+      </div>
     </div>
 
   </div>
 </div>
+
+<p-dialog [contentStyle]="{'overflow':'visible'}" header="Create Payment Method" [(visible)]="addPaymentMethod" [modal]="true" [baseZIndex]="10000"
+          [draggable]="false" [resizable]="false">
+  <div style="width: 350px" class="p-fluid">
+    <form [formGroup]="paymentMethodForm" #formPaymentMethod="ngForm" (ngSubmit)="submitPaymentMethod(formPaymentMethod)">
+      <div class="p-field form-group">
+        <label>Name</label>
+        <input pInputText placeholder="{{form.type.value.typeId == 6?'Name on Account':'Name on Card'}}" formControlName="nameOnCard" id="nameOnCard" class="form-control" [ngClass]="{ 'is-invalid': formPaymentMethod.submitted && form.nameOnCard.errors }">
+        <small *ngIf="formPaymentMethod.submitted && form.nameOnCard.invalid && form.nameOnCard.errors.required" id="password-notification" class="p-error">Name is required</small>
+      </div>
+      <div class=" form-group">
+        <p-dropdown [options]="paymentTypes" optionLabel="typeId" placeholder="Payment Type" formControlName="type" class="form-control" [ngClass]="{ 'is-invalid': formPaymentMethod.submitted && form.type.errors }">
+          <ng-template let-selected pTemplate="selectedItem">
+            <div class="p-grid p-d-flex p-my-auto p-ai-center" style="width: 100%; height: 32px">
+              <div class="p-col-2" style="padding-bottom: 0; padding-top: 0">
+                <img src="{{selected.imageSrc}}" style="width: 36px; height: 22px">
+              </div>
+              <div class="p-col-10" style="padding-bottom: 0; padding-top: 0">
+                <label>{{selected.typeName}}</label>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template let-type pTemplate="item">
+            <div class="p-grid p-d-flex p-my-auto p-ai-center" style="width: 100%; height: 32px">
+              <div class="p-col-2" style="padding-bottom: 0; padding-top: 0">
+                <img src="{{type.imageSrc}}" style="width: 36px; height: 22px">
+              </div>
+              <div class="p-col-10" style="padding-bottom: 0; padding-top: 0">
+                <label>{{type.typeName}}</label>
+              </div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div *ngIf="form.type.value.typeId != 6">
+        <div class="p-field form-group">
+          <label>Credit Card Number</label>
+          <p-inputMask mask="9999 9999 9999 9999"  placeholder="9999 9999 9999 9999" formControlName="cardNumber" id="cardNumber" class="form-control" [ngClass]="{ 'is-invalid': formPaymentMethod.submitted && form.cardNumber.errors }"></p-inputMask>
+          <small *ngIf="formPaymentMethod.submitted && form.cardNumber.invalid && form.cardNumber.errors.required" class="p-error">cardNumber is required</small>
+        </div>
+        <div class="p-d-flex p-jc-evenly">
+
+          <div class="p-field form-group p-mr-2">
+            <label>Expiration</label>
+            <p-inputMask mask="99/99" placeholder="MM/YY" formControlName="exp" id="exp" class="form-control" [ngClass]="{ 'is-invalid': formPaymentMethod.submitted && form.exp.errors }"></p-inputMask>
+            <small *ngIf="formPaymentMethod.submitted && form.exp.invalid && form.exp.errors.required" class="p-error">Expiration is required</small>
+          </div>
+          <div class="p-field form-group">
+            <label>CVV</label>
+            <p-inputMask mask="999" placeholder="999" formControlName="cvv" id="cvv" class="form-control" [ngClass]="{ 'is-invalid': formPaymentMethod.submitted && form.cvv.errors }"></p-inputMask>
+            <small *ngIf="formPaymentMethod.submitted && form.cvv.invalid && form.cvv.errors.required" class="p-error">Password is required</small>
+          </div>
+        </div>
+      </div>
+      <div class="p-d-flex p-jc-center" style="margin-top: 20px">
+        <button pButton pRipple class="gray-button"   label="Cancel" type="reset" (click)="addPaymentMethod = false" style="margin-right: 10px"></button>
+        <button pRipple pButton class="yellow-button" label="Save" type="submit"></button>
+      </div>
+    </form>
+  </div>
+</p-dialog>

@@ -116,11 +116,11 @@ export class AccountComponent implements OnInit {
   get password() { return this.passwordForm.controls; }
 
   changeMembership() {
-    this.app.isLoading(true);
+    this.app.loadingAdd();
     this.http.post<any>("http://localhost:4200/api/changePrimeMembership", { member: this.currentUser.primeMember, accountId: this.currentUser.accountId }).subscribe(response =>{
       response.data.token = this.currentUserSubject.value.token;
       this.authService.updateUser(response.data)
-      this.app.isLoading(false);
+      this.app.loadingRemove();
     });
   }
 
@@ -138,7 +138,7 @@ export class AccountComponent implements OnInit {
     if (this.nameForm.invalid) {
       return;
     }
-    this.app.isLoading(true);
+    this.app.loadingAdd();
     let tempAccount = this.currentUser;
     tempAccount.firstName = this.nameForm.value.firstName.toLowerCase();
     tempAccount.lastName = this.nameForm.value.lastName.toLowerCase();
@@ -155,7 +155,7 @@ export class AccountComponent implements OnInit {
     if (this.emailForm.invalid) {
       return;
     }
-    this.app.isLoading(true);
+    this.app.loadingAdd();
     let tempAccount = this.currentUser;
     tempAccount.email = this.emailForm.value.email.toLowerCase();
     tempAccount.updatePassword = false;
@@ -172,7 +172,7 @@ export class AccountComponent implements OnInit {
     if (this.passwordForm.invalid) {
       return;
     }
-    this.app.isLoading(true);
+    this.app.loadingAdd();
     this.authService.checkPassword(this.currentUser.email, this.passwordForm.value.password)
       .pipe(first())
       .subscribe(
@@ -186,13 +186,13 @@ export class AccountComponent implements OnInit {
           }
           else{
 
-            this.app.isLoading(false);
+            this.app.loadingRemove();
           }
 
         },
         error => {
           this.error = error;
-          this.app.isLoading(false);
+          this.app.loadingRemove();
         }
       );
     form.reset();
@@ -213,12 +213,12 @@ export class AccountComponent implements OnInit {
           else{
             this.error = response.message;
           }
-          this.app.isLoading(false);
+          this.app.loadingRemove();
 
         },
         error => {
           this.error = error;
-          this.app.isLoading(false);
+          this.app.loadingRemove();
         }
       );
   }

@@ -8,6 +8,10 @@
   font-family: Ember;
   src: local("Ember-Rg"), url("./assets/fonts/Ember/AmazonEmber_Rg.ttf") format("truetype");
 }
+
+:root {
+  --primary-color: #febd69;
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: Ember, Arial,sans-serif;
   padding: 0;
@@ -184,4 +188,26 @@ a, a:link{
   margin-left: 2px;
   width: 120px;
   padding: 0;
+}
+button.gray-button.p-button  {
+  background: #e7e9ec;
+  border-color: #adb1b8 #a2a6ac #8d9096;
+  color: #000000;
+  font-family: Ember, sans-serif
+}
+button.gray-button.p-button:hover {
+  background: #dbdcde;
+  border-color: #adb1b8 #a2a6ac #8d9096;
+  color: #000000;
+}
+button.yellow-button.p-button  {
+  background: #febd69;
+  border-color: #9f7933;
+  color: #000000;
+  font-family: Ember, sans-serif
+}
+button.yellow-button.p-button:hover {
+  background: #eeaf5e;
+  border-color: #9f7933;
+  color: #000000;
 }

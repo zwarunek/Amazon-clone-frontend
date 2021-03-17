@@ -1,0 +1,31 @@
+.imageListContainer{
+  width: 40px;
+  height: 40px;
+  border: solid 1px #dbdbdb;
+  cursor: pointer;
+}
+.imageListContainerFocused{
+  box-shadow: 0 0 5px #e77600;
+  border-color: #e77600;
+}
+hr{
+  background-color: transparent;
+  display: block;
+  height: 1px;
+  border-width: 0;
+  border-top: 1px solid #e7e7e7;
+  line-height: 19px;
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+.primeLogo{
+  display: inline-block;
+  width: 53px;
+  height: 15px;
+  background-position: -170px -137px;
+  vertical-align: baseline;
+  background-image: url(https://m.media-amazon.com/images/S/sash/-YXtK4io-KvrV8a.png);
+  -webkit-background-size: 512px 256px;
+  background-size: 512px 256px;
+  background-repeat: no-repeat;
+}

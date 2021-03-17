@@ -96,4 +96,8 @@ export class HeaderComponent implements OnInit {
       cancelable: true
     }));
   }
+  search(words: any){
+    this.router.navigate(['/s'], {queryParams: {k: words}})
+  }
+
 }

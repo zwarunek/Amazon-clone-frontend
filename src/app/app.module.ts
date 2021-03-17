@@ -37,6 +37,7 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {TreeModule} from 'primeng/tree';
 import {InputMaskModule} from 'primeng/inputmask';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import {InputMaskModule} from 'primeng/inputmask';
     ProductComponent,
     AddressesComponent,
     PaymentMethodsComponent,
+    SearchResultsComponent,
   ],
   imports: [
     BrowserModule,

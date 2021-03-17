@@ -12,6 +12,7 @@ import {OrderComponent} from "./order/order.component";
 import {BrowsingHistoryComponent} from "./browsing-history/browsing-history.component";
 import {PaymentMethodsComponent} from "./account/payment-methods/payment-methods.component";
 import {AddressesComponent} from "./account/addresses/addresses.component";
+import {SearchResultsComponent} from "./search-results/search-results.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [AuthGuard]},
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path: 'cart', component: CartComponent, canActivate: [AuthGuard]},
   {path: 'account/payment-methods', component: PaymentMethodsComponent, canActivate: [AuthGuard]},
   {path: 'account/addresses', component: AddressesComponent, canActivate: [AuthGuard]},
+  {path: 's', component: SearchResultsComponent, canActivate: [AuthGuard]},
 
   {path: '**', redirectTo: ''}
 

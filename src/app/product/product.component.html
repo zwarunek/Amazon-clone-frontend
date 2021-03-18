@@ -52,7 +52,7 @@
             <p-dropdown [options]="quantityOptions" [(ngModel)]="quantity" optionLabel="name">
             </p-dropdown>
           </div>
-          <button pButton class="yellow-button" label="Add to Cart" style="width: 100%"></button>
+          <button pButton class="yellow-button" label="Add to Cart" (click)="addToCart()" style="width: 100%"></button>
         </div>
       </div>
     </div>

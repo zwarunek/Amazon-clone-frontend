@@ -105,7 +105,7 @@ a, a:link{
   margin-top: 12px;
   pointer-events: none;
   display: block;
-  position: fixed;
+  position: absolute;
   z-index: 1;
   height: 29px;
   width: 96px;
@@ -118,7 +118,7 @@ a, a:link{
 }
 .prime_logo {
   display: block;
-  position: fixed;
+  position: absolute;
   z-index: 2;
   height: 17px;
   width: 45px;

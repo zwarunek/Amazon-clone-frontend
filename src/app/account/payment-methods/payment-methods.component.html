@@ -1,4 +1,4 @@
-<div class="p-d-flex p-jc-center">
+<div *ngIf="app.loading == false" class="p-d-flex p-jc-center">
   <div class="main-content">
     <h1 style="border-bottom: #FFA62B solid 1px; margin-bottom: 40px">
       Your Payments
@@ -33,8 +33,13 @@
                   <label style="font-weight: bolder; font-size: 14px">Name on Card</label>
                   <label style="font-weight: normal; font-size: 14px">{{method.nameOnCard | titlecase}}</label>
                 </div>
-                <div class="p-col-3">
-
+                <div class="p-col-3 p-mb-2" style="padding: 0">
+                  <div class="p-d-flex p-flex-column">
+                    <label style="font-weight: bolder; font-size: 14px">Billing Address</label>
+                    <h5 class="text">{{findAddress(method.addressId).name | titlecase}}</h5>
+                    <span class="text">{{findAddress(method.addressId).address | titlecase}}</span>
+                    <span class="text">{{findAddress(method.addressId).city | titlecase}}, {{findAddress(method.addressId).state | uppercase}} {{findAddress(method.addressId).zipcode}}</span>
+                  </div>
                 </div>
               </div>
               <div class="p-d-flex p-jc-end" style="width: 100%">
@@ -106,6 +111,28 @@
             <small *ngIf="formPaymentMethod.submitted && form.cvv.invalid && form.cvv.errors.required" class="p-error">Password is required</small>
           </div>
         </div>
+      </div>
+      <div class=" form-group">
+        <p-dropdown [options]="addresses" optionLabel="addressId" placeholder="Billing Address" formControlName="addressId" class="form-control" [ngClass]="{ 'is-invalid': formPaymentMethod.submitted && form.addressId.errors }">
+          <ng-template let-selected pTemplate="selectedItem">
+            <div class="p-grid p-d-flex p-my-auto p-ai-center" style="width: 100%; height: 32px">
+              <h4>{{selected.name | titlecase}}</h4>
+              <h4>{{selected.address}}</h4>
+              <h4>{{selected.city}}, </h4>
+              <h4>{{selected.state}}</h4>
+              <h4>{{selected.zipcode}}</h4>
+            </div>
+          </ng-template>
+          <ng-template let-type pTemplate="item">
+            <div class="p-grid p-d-flex p-my-auto p-ai-center" style="width: 100%; height: 32px;">
+              <div class="p-d-flex p-flex-row" style="width: 100%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                <h4 class="p-mr-1">{{type.name | titlecase}} </h4>
+                <h4 class="p-mr-1" style="font-weight: normal">{{type.address | titlecase}} {{type.city | titlecase}}, {{type.state | titlecase}} {{type.zipcode}}</h4>
+              </div>
+
+            </div>
+          </ng-template>
+        </p-dropdown>
       </div>
       <div class="p-d-flex p-jc-center" style="margin-top: 20px">
         <button pButton pRipple class="gray-button"   label="Cancel" type="reset" (click)="addPaymentMethod = false" style="margin-right: 10px"></button>

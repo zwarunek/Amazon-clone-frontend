@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {AppComponent} from "../app.component";
+import {AuthenticationService} from "../_services";
 
 @Component({
   selector: 'app-product',
@@ -18,10 +19,10 @@ export class ProductComponent implements OnInit {
   productImageUrls: any[] = [];
   mainImg: any;
   quantityOptions: any[] = [];
-  quantity: any = 1;
+  quantity: any = {name: 1};
   categories: { name: string; categoryId: number }[];
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, public app: AppComponent) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, public app: AppComponent, private auth: AuthenticationService, private router: Router) { }
 
   ngOnInit(): void {
     this.app.loadingAdd()
@@ -45,11 +46,11 @@ export class ProductComponent implements OnInit {
     this.app.loadingAdd()
     this.fetchCategories()
     this.quantityOptions = [
-      {name: '1'},
-      {name: '2'},
-      {name: '3'},
-      {name: '4'},
-      {name: '5'},
+      {name: 1},
+      {name: 2},
+      {name: 3},
+      {name: 4},
+      {name: 5},
 
     ]
     this.app.loadingRemove()
@@ -71,6 +72,12 @@ export class ProductComponent implements OnInit {
     this.http.get<any>("http://localhost:4200/api/getAllCategories").subscribe(response => {
       this.categories = response.data
       this.app.loadingRemove()
+    });
+  }
+  addToCart(){
+    this.http.post<any>("http://localhost:4200/api/addToCart", {accountId: this.auth.currentUserValue.accountId, productId: Number(this.productId), quantity: Number(this.quantity.name), price: this.product.price}).subscribe(response => {
+      this.categories = response.data
+      this.router.navigateByUrl("/cart")
     });
   }
 }

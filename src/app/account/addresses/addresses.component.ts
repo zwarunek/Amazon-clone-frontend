@@ -36,9 +36,7 @@ export class AddressesComponent implements OnInit {
     this.app.loadingAdd();
     this.http.get<any>("http://localhost:4200/api/getAllAddresses",
       {params: {accountId: this.auth.currentUserValue.accountId}}).subscribe(response =>{
-      console.log(response.data);
       this.addresses = response.data
-      console.log(this.addresses);
       this.app.loadingRemove();
     })
   }

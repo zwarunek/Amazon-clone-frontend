@@ -16,19 +16,22 @@ export class PaymentMethodsComponent implements OnInit {
   addPaymentMethod: boolean = false;
   paymentMethodForm: FormGroup;
   selectedType: any = [];
+  addresses: any[] = [];
 
-  constructor(private http: HttpClient, private auth: AuthenticationService, private app: AppComponent, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private auth: AuthenticationService, public app: AppComponent, private formBuilder: FormBuilder) {
     this.app.loadingAdd(); }
 
   ngOnInit(): void {
     this.getAllPaymentMethods();
     this.getAllPaymentTypes();
+    this.getAllAddresses();
     this.paymentMethodForm = this.formBuilder.group({
       nameOnCard: new FormControl('', Validators.required),
       cardNumber: new FormControl('', Validators.required),
       exp: new FormControl('', Validators.required),
       cvv: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
+      addressId: new FormControl('', Validators.required),
       pmid: new FormControl(''),
       favorite: new FormControl('')
     });
@@ -54,6 +57,14 @@ export class PaymentMethodsComponent implements OnInit {
         this.paymentMethodForm.controls.type.setValue(this.paymentTypes[4]);
       }
     });
+  }
+  getAllAddresses(){
+    this.app.loadingAdd();
+    this.http.get<any>("http://localhost:4200/api/getAllAddresses",
+      {params: {accountId: this.auth.currentUserValue.accountId}}).subscribe(response =>{
+      this.addresses = response.data
+      this.app.loadingRemove();
+    })
   }
   getAllPaymentMethods(){
     this.app.loadingAdd();
@@ -100,6 +111,7 @@ export class PaymentMethodsComponent implements OnInit {
       tempForm.favorite = this.paymentMethodForm.value.favorite;
     }
     tempForm.accountId = this.auth.currentUserValue.accountId;
+    tempForm.addressId = this.paymentMethodForm.value.type.addressId;
     tempForm.typeId = this.paymentMethodForm.value.type.typeId;
     tempForm.nameOnCard = this.paymentMethodForm.value.nameOnCard.toLowerCase();
     tempForm.cardNumber = this.paymentMethodForm.value.cardNumber.replace(/\s/g, "");
@@ -137,6 +149,7 @@ export class PaymentMethodsComponent implements OnInit {
   editPaymentMethod(method: any) {
     this.paymentMethodForm.setValue({
       pmid: method.PMID,
+      addressId: method.addressId,
       type: method.type,
       nameOnCard: method.nameOnCard,
       cardNumber: method.cardNumber,
@@ -145,5 +158,9 @@ export class PaymentMethodsComponent implements OnInit {
       favorite: method.favorite
     });
     this.addPaymentMethod = true
+  }
+
+  findAddress(addressId: any){
+    return this.addresses.find(x => x.addressId === addressId);
   }
 }

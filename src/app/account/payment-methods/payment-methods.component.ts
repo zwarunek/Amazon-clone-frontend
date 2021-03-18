@@ -29,7 +29,8 @@ export class PaymentMethodsComponent implements OnInit {
       exp: new FormControl('', Validators.required),
       cvv: new FormControl('', Validators.required),
       type: new FormControl('', Validators.required),
-      pmid: new FormControl('')
+      pmid: new FormControl(''),
+      favorite: new FormControl('')
     });
     this.app.loadingRemove();
     this.paymentMethodForm.get("cardNumber").valueChanges.subscribe(val => {
@@ -95,6 +96,9 @@ export class PaymentMethodsComponent implements OnInit {
     if(this.paymentMethodForm.value.pmid != ""){
       tempForm.pmid = parseInt(this.paymentMethodForm.value.pmid);
     }
+    if(this.paymentMethodForm.value.favorite != ""){
+      tempForm.favorite = this.paymentMethodForm.value.favorite;
+    }
     tempForm.accountId = this.auth.currentUserValue.accountId;
     tempForm.typeId = this.paymentMethodForm.value.type.typeId;
     tempForm.nameOnCard = this.paymentMethodForm.value.nameOnCard.toLowerCase();
@@ -137,7 +141,8 @@ export class PaymentMethodsComponent implements OnInit {
       nameOnCard: method.nameOnCard,
       cardNumber: method.cardNumber,
       exp: method.exp,
-      cvv: method.cvv
+      cvv: method.cvv,
+      favorite: method.favorite
     });
     this.addPaymentMethod = true
   }

@@ -12,7 +12,7 @@
 :root {
   --primary-color: #febd69;
 }
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, span {
   font-family: Ember, Arial,sans-serif;
   padding: 0;
   margin: 0;
@@ -26,6 +26,9 @@ h1.a-spacing-small {
 }
 label {
   font-family: Ember, sans-serif;
+}
+span{
+  font-size: 13px;
 }
 h1 {
   font-weight: 400;

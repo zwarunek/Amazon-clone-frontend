@@ -12,7 +12,7 @@
       </div>
       <div *ngIf="currentUser != null" class="nav-fill">
         <div class="search-bar">
-          <p-dropdown class="cat" [options]="categories" [(ngModel)]="selectedCategory" optionLabel="name" placeholder="All" ></p-dropdown>
+          <p-dropdown class="cat" [options]="categories" optionValue="categoryId" [(ngModel)]="selectedCategory" optionLabel="name" placeholder="All" ></p-dropdown>
           <input pInputText type="text" #searchBar style="border-radius: 0 0 0 0; flex: 1 1 auto;" (keydown.enter)="search(searchBar.value)">
           <button pButton pRipple label=" " (click)="search(searchBar.value)" style="border-radius: 0 5px 5px 0;color: #131921; background: #febd69; border-color: #febd69">
             <i class="pi pi-search" style="font-size: 1.5rem"></i>

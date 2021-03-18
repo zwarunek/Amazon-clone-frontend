@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
 
   currentUserSubject: BehaviorSubject<any>;
   categories: any[];
-  selectedCategory: String;
+  selectedCategory: any;
   accountInfoItems: MenuItem[];
   primeMember: boolean;
   currentUser: any;
@@ -75,8 +75,8 @@ export class HeaderComponent implements OnInit {
 
   fetchCategories(){
     this.http.get<any>("http://localhost:4200/api/getAllCategories").subscribe(response => {
-      this.categories = [{categoryId: 0, name: "All Departments"}].concat(response.data)
-      this.selectedCategory = "All";
+      this.categories = [{categoryId: 0, name: "All"}].concat(response.data)
+      this.selectedCategory = 0;
 
     });
   }
@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit {
     }));
   }
   search(words: any){
-    this.router.navigate(['/s'], {queryParams: {k: words}})
+    this.router.navigate(['/s'], {queryParams: {k: words, c: this.selectedCategory, p: false}})
   }
 
 }

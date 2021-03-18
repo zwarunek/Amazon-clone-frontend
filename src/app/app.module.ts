@@ -38,7 +38,7 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {TreeModule} from 'primeng/tree';
 import {InputMaskModule} from 'primeng/inputmask';
 import { SearchResultsComponent } from './search-results/search-results.component';
-
+import {CheckboxModule} from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
@@ -82,7 +82,8 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     ConfirmPopupModule,
     TreeModule,
     AccordionModule,
-    InputMaskModule
+    InputMaskModule,
+    CheckboxModule
 
   ],
   providers: [

@@ -18,14 +18,3 @@ hr{
   margin-top: 0;
   margin-bottom: 14px;
 }
-.primeLogo{
-  display: inline-block;
-  width: 53px;
-  height: 15px;
-  background-position: -170px -137px;
-  vertical-align: baseline;
-  background-image: url(https://m.media-amazon.com/images/S/sash/-YXtK4io-KvrV8a.png);
-  -webkit-background-size: 512px 256px;
-  background-size: 512px 256px;
-  background-repeat: no-repeat;
-}

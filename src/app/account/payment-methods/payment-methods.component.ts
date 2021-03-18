@@ -111,7 +111,7 @@ export class PaymentMethodsComponent implements OnInit {
       tempForm.favorite = this.paymentMethodForm.value.favorite;
     }
     tempForm.accountId = this.auth.currentUserValue.accountId;
-    tempForm.addressId = this.paymentMethodForm.value.type.addressId;
+    tempForm.addressId = this.paymentMethodForm.value.addressId.addressId;
     tempForm.typeId = this.paymentMethodForm.value.type.typeId;
     tempForm.nameOnCard = this.paymentMethodForm.value.nameOnCard.toLowerCase();
     tempForm.cardNumber = this.paymentMethodForm.value.cardNumber.replace(/\s/g, "");
